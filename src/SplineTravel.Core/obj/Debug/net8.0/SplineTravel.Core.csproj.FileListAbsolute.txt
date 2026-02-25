@@ -1,0 +1,12 @@
+D:\GitHub\SplineTravel\src\SplineTravel.Core\obj\Debug\net8.0\SplineTravel.Core.GeneratedMSBuildEditorConfig.editorconfig
+D:\GitHub\SplineTravel\src\SplineTravel.Core\obj\Debug\net8.0\SplineTravel.Core.AssemblyInfoInputs.cache
+D:\GitHub\SplineTravel\src\SplineTravel.Core\obj\Debug\net8.0\SplineTravel.Core.AssemblyInfo.cs
+D:\GitHub\SplineTravel\src\SplineTravel.Core\obj\Debug\net8.0\SplineTravel.Core.csproj.CoreCompileInputs.cache
+D:\GitHub\SplineTravel\src\SplineTravel.Core\obj\Debug\net8.0\SplineTravel.Core.sourcelink.json
+D:\GitHub\SplineTravel\src\SplineTravel.Core\bin\Debug\net8.0\SplineTravel.Core.deps.json
+D:\GitHub\SplineTravel\src\SplineTravel.Core\bin\Debug\net8.0\SplineTravel.Core.dll
+D:\GitHub\SplineTravel\src\SplineTravel.Core\bin\Debug\net8.0\SplineTravel.Core.pdb
+D:\GitHub\SplineTravel\src\SplineTravel.Core\obj\Debug\net8.0\SplineTravel.Core.dll
+D:\GitHub\SplineTravel\src\SplineTravel.Core\obj\Debug\net8.0\refint\SplineTravel.Core.dll
+D:\GitHub\SplineTravel\src\SplineTravel.Core\obj\Debug\net8.0\SplineTravel.Core.pdb
+D:\GitHub\SplineTravel\src\SplineTravel.Core\obj\Debug\net8.0\ref\SplineTravel.Core.dll

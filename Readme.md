@@ -1,25 +1,40 @@
 # SplineTravel
-A g-code filter to smooth out 3D-printing process
 
-## What does it do?
-It processes G-code programs for 3D printing and replaces straight-line travel moves with smooth curved moves, aimed to avoid the extruder coming to a complete stop before and after the move.
+A G-code post-processor for 3D printing that replaces straight-line travel moves with smooth curved (Bezier spline) moves and provides seam concealment.
 
-Also, it features a seam prevention technique, similar to Slic3r's "Wipe while retracting", but more comprehensive
+**This repository is a complete rewrite in C#/.NET 10.** The original SplineTravel was written in Visual Basic 6 by **DeepSOIC**. The algorithms and behavior are adapted from that implementation. Original project: [DeepSOIC/SplineTravel](https://github.com/DeepSOIC/SplineTravel), [Hackaday](https://hackaday.io/project/7045-splinetravel).
 
-## How to use
-Slice your model with a slicer of your choice. Write g-code to a file. Feed this file to SplineTravel. SplineTravel will write its output g-code into another file. Use this file for printing. See more in [Wiki](https://github.com/DeepSOIC/SplineTravel/wiki).
+## What it does
 
-## Installing
-There is a pre-built executable right in the repository. It is more-or-less stand-alone (provided you have VB6 runtime libraries, which are included in most versions of Windows). There is no installer, so far.
+- **Spline travel:** Replaces straight travel moves with cubic Bezier curves fitted to entry/exit speed and acceleration limits, reducing full stops.
+- **Straight travel (optional):** Retract, Z-hop, linear move, Z-hop down, unretract.
+- **Seam concealment:** When the start and end of an extrusion loop are close, injects retract/unretract to hide the seam (similar to Slic3r "Wipe while retracting").
 
-* Download SplineTravel.exe from the repository
-* in the directory you downloaded SplineTravel.exe, create a directory named "presets". This directory will be used by SplineTravel to store preset files. If the directory doesn't exist, SplineTravel will fail to do anything at all (you'll get 'Path not found' errors; to be fixed..).
+## PrusaSlicer integration
 
-## Building or running from source code
-SplineTravel is written in Visual Basic 6. To use the source code, all that is needed is a working installation of VB6 IDE. SplineTravel has no dependencies on external libraries other than VB6 runtime.
+Configure in **Print settings - Output options - Post-processing scripts** with the path to `splinetravel` (or `splinetravel.exe` on Windows). PrusaSlicer passes the G-code file path as the last argument; SplineTravel modifies the file in place. See [PrusaSlicer post-processing docs](https://help.prusa3d.com/article/post-processing-scripts_283913).
 
+## Build and run
 
-## Links
-Documentation on GitHub wiki: <https://github.com/DeepSOIC/SplineTravel/wiki>   
-project page on hackaday: <https://hackaday.io/project/7045-splinetravel>    
-Slic3r, the slicer this project is mostly tested with: <http://slic3r.org/>
+Requires .NET 10 SDK. If you only have .NET 8, change `TargetFramework` to `net8.0` in `src/SplineTravel.Core/SplineTravel.Core.csproj` and `src/SplineTravel.Cli/SplineTravel.Cli.csproj`.
+
+```bash
+dotnet build
+dotnet run --project src/SplineTravel.Cli -- input.gcode
+```
+
+Single-file executable (e.g. for PrusaSlicer):
+
+```bash
+dotnet publish src/SplineTravel.Cli -c Release -r win-x64 --self-contained
+```
+
+## Usage
+
+- **In-place (PrusaSlicer):** `splinetravel /path/to/file.gcode`
+- **Custom output:** `splinetravel input.gcode --output output.gcode`
+- **Config:** Use `--config splinetravel.json` or place `splinetravel.json` next to the executable.
+
+## License
+
+See LICENSE. Original VB6 implementation by DeepSOIC.
