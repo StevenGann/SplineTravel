@@ -5,13 +5,22 @@ using SplineTravel.Core.Precision;
 namespace SplineTravel.Core.Processing;
 
 /// <summary>
-/// Main pipeline: read G-code, group, optional seam concealment, replace travel, write.
-/// Ported from VB6 mdlWorker.Process.
+/// Main pipeline: read G-code, group it into build / travel / other segments,
+/// optionally apply seam concealment, replace travel moves, and write the result.
+/// Ported from the original VB6 <c>mdlWorker.Process</c>.
 /// </summary>
 public static class SplineTravelProcessor
 {
     private const double Eps = 1e-100;
 
+    /// <summary>
+    /// Processes a G-code stream according to the supplied options and precision
+    /// and writes the transformed program to the output stream.
+    /// </summary>
+    /// <param name="input">Source G-code text.</param>
+    /// <param name="output">Destination for processed G-code text.</param>
+    /// <param name="options">Spline/straight travel and seam concealment settings.</param>
+    /// <param name="precision">Decimal and tolerance settings for numeric output.</param>
     public static void Process(TextReader input, TextWriter output, ProcessingOptions options, PrecisionSettings precision)
     {
         var chain = GCodeParser.Parse(input);

@@ -1,7 +1,8 @@
 namespace SplineTravel.Core.GCode;
 
 /// <summary>
-/// Ordered list of G-code commands (replaces VB6 clsChain).
+/// Ordered list of G-code commands (replaces the VB6 <c>clsChain</c> type).
+/// Provides basic navigation and grouping helpers.
 /// </summary>
 public sealed class GCodeChain
 {
@@ -41,7 +42,8 @@ public sealed class GCodeChain
     public void Clear() => _commands.Clear();
 
     /// <summary>
-    /// Build move groups: Other, Build, Travel, Other, ... (same classification as VB6).
+    /// Yields contiguous move groups classified as other, build, or travel.
+    /// The underlying command list is not modified.
     /// </summary>
     public IEnumerable<MoveGroup> GetMoveGroups()
     {
@@ -94,9 +96,29 @@ public sealed class GCodeChain
     }
 }
 
-public enum MoveGroupType { Other, Build, Travel }
-
-public readonly record struct MoveGroup(MoveGroupType Type, int StartIndex, int EndIndex, GCodeCommand FirstMove, GCodeCommand LastMove)
+/// <summary>
+/// Classification of a contiguous run of commands used for higher-level processing.
+/// </summary>
+public enum MoveGroupType
 {
+    /// <summary>Non-move and setup commands (G90/G91, M82/M83, comments, etc.).</summary>
+    Other,
+    /// <summary>Extruding moves that contribute to the printed model.</summary>
+    Build,
+    /// <summary>Travel and pure-extruder moves (retract / unretract) between build segments.</summary>
+    Travel
+}
+
+/// <summary>
+/// Summary information about a group of commands in a <see cref="GCodeChain"/>.
+/// </summary>
+public readonly record struct MoveGroup(
+    MoveGroupType Type,
+    int StartIndex,
+    int EndIndex,
+    GCodeCommand FirstMove,
+    GCodeCommand LastMove)
+{
+    /// <summary>Number of commands in this group.</summary>
     public int Length => EndIndex - StartIndex + 1;
 }

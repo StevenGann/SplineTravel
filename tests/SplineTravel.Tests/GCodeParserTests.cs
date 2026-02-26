@@ -3,6 +3,9 @@ using Xunit;
 
 namespace SplineTravel.Tests;
 
+/// <summary>
+/// Tests basic G-code parsing and state propagation behavior for <see cref="GCodeParser"/>.
+/// </summary>
 public class GCodeParserTests
 {
     [Fact]

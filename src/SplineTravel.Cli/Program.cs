@@ -5,8 +5,20 @@ using SplineTravel.Core.Processing;
 
 namespace SplineTravel.Cli;
 
+/// <summary>
+/// Console entry point for SplineTravel:
+/// parses arguments, loads configuration, runs the processing pipeline,
+/// and supports PrusaSlicer post-processing (in-place) mode.
+/// </summary>
 static class Program
 {
+    /// <summary>
+    /// Entry point. The last argument is interpreted as the input G-code path
+    /// (matching PrusaSlicer post-processing behavior).
+    /// </summary>
+    /// <param name="args">
+    /// <c>&lt;input.gcode&gt; [--output &lt;file&gt;] [--config &lt;file&gt;] [--mode spline|straight]</c>.
+    /// </param>
     static int Main(string[] args)
     {
         if (args.Length == 0)
@@ -68,6 +80,11 @@ static class Program
         }
     }
 
+    /// <summary>
+    /// Loads <see cref="ProcessingOptions"/> from a JSON file if it exists,
+    /// otherwise returns defaults.
+    /// </summary>
+    /// <param name="path">Path to a JSON config file.</param>
     static ProcessingOptions LoadOptions(string path)
     {
         var options = new ProcessingOptions();
