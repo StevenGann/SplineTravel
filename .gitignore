@@ -51,3 +51,12 @@ testing_gcode/*
 presets/*.ini
 # will add overrides later for specific allowed sample presets
 # !presets/PrintBox3D-fastest.ini
+/src/SplineTravel.Cli/bin
+/src/SplineTravel.Cli/bin
+/src/SplineTravel.Cli/bin
+/src/SplineTravel.Cli/obj
+/tests/SplineTravel.Tests/bin
+/tests/SplineTravel.Tests/obj
+/src/SplineTravel.Core/obj
+/src/SplineTravel.Core/bin
+/src/SplineTravel.Cli/obj
